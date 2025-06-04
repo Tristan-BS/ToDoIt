@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-create-edit-modal',
@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './create-edit-modal.component.scss'
 })
 export class CreateEditModalComponent {
+  @Output() close = new EventEmitter<void>();
 
+  closeModal(): void {
+	this.close.emit();
+  }
 }

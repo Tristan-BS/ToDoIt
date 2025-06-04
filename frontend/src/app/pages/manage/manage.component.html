@@ -1,1 +1,3 @@
 <p>manage works!</p>
+<button (click)="showModal()" mode="hi">Create new Category</button>
+<app-create-edit-modal *ngIf="isModalVisible" (close)="hideModal()"></app-create-edit-modal>
