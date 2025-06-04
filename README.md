@@ -1,0 +1,1 @@
+Maybe bei den 3 managables hintergrund is in der farbe die man auswählt, und schriftfarbe kann man auch selbst aussuchen ( entweder schwarz oder weiß )
