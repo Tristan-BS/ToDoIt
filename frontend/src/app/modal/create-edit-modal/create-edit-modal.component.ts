@@ -25,9 +25,11 @@ export class CreateEditModalComponent {
   submitForm(): void {
     const title = this.titleInput?.nativeElement.value || '';
     const description = this.descInput?.nativeElement.value || '';
-    const color = this.colorInput?.nativeElement.value || '';
+    const color = this.colorInput?.nativeElement.value ?? '';
 
-    console.log(title, description, color);
+    // Maybe better approach.
+    //const colorValue = this.colorInput?.nativeElement.value;
+    //const color = colorValue && colorValue.trim() !== '' ? colorValue : null;
 
     this.submit.emit({
       mode: this.mode,

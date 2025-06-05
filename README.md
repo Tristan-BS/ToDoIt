@@ -9,3 +9,14 @@ Fix this with the following git commands:
 - `git add frontend`
 - `git commit -m "Fix: frontend as normal folder"`
 - `git push`
+
+## API - Call Issue
+Add this line to /bootstrap/app.php
+```php
+api: __DIR__.'/../routes/api.php'
+```
+
+MAYBE: Publish cors config for further configurations.
+```
+php artisan config:publish cors
+```
