@@ -57,7 +57,20 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'color' => 'nullable|string|max:20',
+        ]);
+
+        $category->update($validated);
+
+        return response()->json([
+            'message' => 'Category updated successfully',
+            'category' => $category
+        ]);
     }
 
     /**

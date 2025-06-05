@@ -16,6 +16,7 @@ export class ManageComponent {
   isModalVisible = false;
   modalMode = 'createCategory';
   allCategories!: Observable<any[]>;
+  selectedCategory: any = null;
 
   constructor(private manageService: ManageService) {}
 
@@ -27,9 +28,10 @@ export class ManageComponent {
     this.allCategories = this.manageService.getAllCategories();
   }
 
-  showModal(mode: string = 'createCategory') {
+  showModal(mode: string = 'createCategory', category: any = null) {
     this.modalMode = mode;
     this.isModalVisible = true;
+    this.selectedCategory = category;
   }
 
   hideModal() {
@@ -58,8 +60,28 @@ export class ManageComponent {
       }
 
       case 'editCategory': {
-        console.log('Edited Successfully --DEBUG');
-        console.log(`Debug Values: \nmode: ${data.mode} \ntitle: ${data.title} \ndescription: ${data.description} \ncolor: ${data.color}`);
+        if (this.selectedCategory && this.selectedCategory.id) {
+          const categoryID = Number(this.selectedCategory.id);
+
+          this.manageService.editCategory(
+            categoryID,
+            {
+              title: data.title,
+              description: data.description,
+              color: data.color
+            }
+          ).subscribe({
+            next: (response) => {
+              console.log('Category edited successfully: ', response);
+              this.refreshCategories();
+            },
+            error: (error) => {
+              console.error('Error editing category: ', error);
+            }
+          });
+        } else {
+          console.error('Cannot update category: Missing ID');
+        }
         break;
       }
 
