@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
+
 
 class CategoryController extends Controller
 {
@@ -12,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return Category::all();
     }
 
     /**
@@ -26,12 +28,20 @@ class CategoryController extends Controller
             'color' => 'nullable|string|max:20',
         ]);
 
-        $category = Category::create($validated);
+        $exists = DB::table('category')->where('title', $validated['title'])->exists();
 
-        return response()->json([
-            'message' => 'Category created successfully',
-            'category' => $category
-        ], 201);
+        if ($exists) {
+            return response()->json([
+                'message' => 'Category with this title already exists',
+            ], 422);
+        } else {
+            $category = Category::create($validated);
+
+            return response()->json([
+                'message' => 'Category created successfully',
+                'category' => $category
+            ], 201);
+        }
     }
 
     /**

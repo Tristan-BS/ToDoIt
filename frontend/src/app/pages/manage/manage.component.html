@@ -1,5 +1,14 @@
 <button (click)="showModal('createCategory')">Create new Category</button>
 <button (click)="showModal('editCategory')" style="margin-left: 15px;">Edit a Category</button>
+
+<ul>
+    <li *ngFor="let category of allCategories | async">
+        <span>{{ category.title }}</span>
+        <span *ngIf="category.description"> - {{ category.description }}</span>
+        <span *ngIf="category.color"> - {{ category.color }}</span>
+    </li>
+</ul>
+
 <app-create-edit-modal 
     *ngIf="isModalVisible" 
     [mode]="modalMode" 

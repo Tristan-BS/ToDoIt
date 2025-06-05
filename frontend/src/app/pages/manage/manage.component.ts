@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreateEditModalComponent } from '../../modal/create-edit-modal/create-edit-modal.component';
 import { ManageService } from '../../manage.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-manage',
@@ -11,10 +12,20 @@ import { ManageService } from '../../manage.service';
   styleUrl: './manage.component.scss'
 })
 export class ManageComponent {
+
   isModalVisible = false;
   modalMode = 'createCategory';
+  allCategories!: Observable<any[]>;
 
   constructor(private manageService: ManageService) {}
+
+  ngOnInit(): void {
+    this.refreshCategories();
+  }
+
+  refreshCategories(): void {
+    this.allCategories = this.manageService.getAllCategories();
+  }
 
   showModal(mode: string = 'createCategory') {
     this.modalMode = mode;
@@ -35,6 +46,7 @@ export class ManageComponent {
         }).subscribe({
           next: (response) => {
             console.log('Category created successfully: ', response);
+            this.refreshCategories();
           },
           error: (error) => {
             console.error('Error creating category:', error);

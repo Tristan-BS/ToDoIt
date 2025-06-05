@@ -15,4 +15,8 @@ export class ManageService {
   addCategory(category: {title: string, description: string, color: string}): Observable<any> {
     return this.http.post(`${this.apiUrl}/category/add`, category);
   }
+
+  getAllCategories(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/category/showall`)
+  }
 }
