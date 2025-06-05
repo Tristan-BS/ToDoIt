@@ -1,7 +1,36 @@
 <div class="modal-overlay" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
-	<h2>Modal Title</h2>
-	<p>This is the content of the modal. It can include text, images, forms, or any other Angular component.</p>
+
+	<!-- CREATE CATEGORY -->
+	<div *ngIf="mode === 'createCategory'">
+      <h2>Create Category</h2>
+	  <form>
+		<label class="labelTitle">Title</label>
+		<input #titleInput id="categoryTitle" class="inputTitle" placeholder="Work, School, Privacy etc...">
+
+	  <br>
+	  <br>
+
+		<label class="labelDescription">Description (Optional)</label>
+		<input #descInput id="categoryDescription" class="inputDescription" placeholder="For my personal use etc...">
+
+	  <br>
+	  <br>
+
+		<label class="labelColor">Color (Optional)</label>
+		<input #colorInput id="categoryColor" class="inputColorPicker" placeholder="Do not use at the moment">
+
+	  </form>
+    </div>
+
+    <div *ngIf="mode === 'editCategory'">
+      <h2>Edit Category</h2>
+	  <form>
+
+	  </form>
+    </div>
+	<br>
+	<button (click)="submitForm()">{{ mode === 'createCategory' ? 'Create' : 'Update' }}</button>
 	<button (click)="closeModal()">Close</button>
   </div>
 </div>
