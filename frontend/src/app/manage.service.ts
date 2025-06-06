@@ -23,4 +23,8 @@ export class ManageService {
   editCategory(id: number, category: {title: string, description: string, color: string}): Observable<any> {
     return this.http.put(`${this.apiUrl}/category/edit/${id}`, category);
   }
+
+  deleteCategory(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/category/delete/${id}`);
+  }
 }

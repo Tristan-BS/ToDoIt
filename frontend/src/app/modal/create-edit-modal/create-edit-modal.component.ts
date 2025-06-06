@@ -21,15 +21,15 @@ export class CreateEditModalComponent implements AfterViewInit {
   @Output() submit = new EventEmitter<{mode: string, title: string, description: string, color: string}>();
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit called, categoryData:', this.categoryData);
+    //console.log('ngAfterViewInit called, categoryData:', this.categoryData);
     
     if (this.mode === 'editCategory' && this.categoryData) {
       setTimeout(() => {
-        console.log('Setting values:', {
-          title: this.categoryData.title,
-          desc: this.categoryData.description,
-          color: this.categoryData.color
-        });
+        // console.log('Setting values:', {
+        //   title: this.categoryData.title,
+        //   desc: this.categoryData.description,
+        //   color: this.categoryData.color
+        // });
         
         if (this.titleInput) this.titleInput.nativeElement.value = this.categoryData.title || '';
         if (this.descInput) this.descInput.nativeElement.value = this.categoryData.description || '';

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreateEditModalComponent } from '../../modal/create-edit-modal/create-edit-modal.component';
 import { ManageService } from '../../manage.service';
+import { DialogService } from '../../shared/dialog.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -18,7 +19,10 @@ export class ManageComponent {
   allCategories!: Observable<any[]>;
   selectedCategory: any = null;
 
-  constructor(private manageService: ManageService) {}
+  constructor(
+    private manageService: ManageService,
+    private dialogService: DialogService
+  ) { }
 
   ngOnInit(): void {
     this.refreshCategories();
@@ -47,15 +51,13 @@ export class ManageComponent {
           color: data.color
         }).subscribe({
           next: (response) => {
-            console.log('Category created successfully: ', response);
+            //console.log('Category created successfully: ', response);
             this.refreshCategories();
           },
           error: (error) => {
             console.error('Error creating category:', error);
           }
         });
-
-        console.log('executed hihi');
         break;
       }
 
@@ -72,7 +74,7 @@ export class ManageComponent {
             }
           ).subscribe({
             next: (response) => {
-              console.log('Category edited successfully: ', response);
+              console.log(response);
               this.refreshCategories();
             },
             error: (error) => {
@@ -93,5 +95,27 @@ export class ManageComponent {
     }
 
     this.hideModal();
+  }
+
+  // CONFIRM MODAL - DELETE CATEGORY
+  onDeleteCategory(id: number) {
+    this.dialogService.confirm(
+      'Delete Category',
+      'Are you sure you want to delete this Category?'
+    ).subscribe(result => {
+      if (result) {
+        this.manageService.deleteCategory(id).subscribe({
+          next: (response) => {
+            console.log(response);
+            this.refreshCategories();
+          },
+          error: (error) => {
+            console.error('Error deleting category: ', error);
+          }
+        })
+      } else {
+        console.log(result);
+      }
+    })
   }
 }

@@ -70,7 +70,7 @@ class CategoryController extends Controller
         return response()->json([
             'message' => 'Category updated successfully',
             'category' => $category
-        ]);
+        ], 201);
     }
 
     /**
@@ -78,6 +78,19 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        
+        if ($category->delete()) {
+            return response()->json([
+                'message' => 'Category successfully deleted',
+                'category' => $id
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Failed to delete Category',
+                'category' => $id
+            ], 401);
+        }
+
     }
 }
