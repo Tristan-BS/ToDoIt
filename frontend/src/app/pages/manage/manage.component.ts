@@ -16,8 +16,12 @@ export class ManageComponent {
 
   isModalVisible = false;
   modalMode = 'createCategory';
+
   allCategories!: Observable<any[]>;
   selectedCategory: any = null;
+
+  allStatuses!: Observable<any[]>;
+  selectedStatus: any = null;
 
   constructor(
     private manageService: ManageService,
@@ -26,12 +30,20 @@ export class ManageComponent {
 
   ngOnInit(): void {
     this.refreshCategories();
+    this.refreshStatuses();
   }
 
+  // -- REFRESHES --
   refreshCategories(): void {
     this.allCategories = this.manageService.getAllCategories();
   }
 
+  refreshStatuses(): void {
+    this.allStatuses = this.manageService.getAllStatuses();
+  }
+
+
+  // -- CREATE EDIT MODAL --
   showModal(mode: string = 'createCategory', category: any = null) {
     this.modalMode = mode;
     this.isModalVisible = true;
@@ -87,6 +99,24 @@ export class ManageComponent {
         break;
       }
 
+      case 'createStatus': {
+        this.manageService.addStatus({
+          title: data.title,
+          description: data.description,
+          color: data.color
+        }).subscribe({
+          next: (response) => {
+            //console.log('Status created successfully: ', response);
+            this.refreshStatuses();
+          },
+          error: (error) => {
+            console.error('Error creating Status: ', error);
+          }
+        });
+
+        break;
+      }
+
       default: {
         console.log('Something went wrong');
         break;
@@ -97,7 +127,7 @@ export class ManageComponent {
     this.hideModal();
   }
 
-  // CONFIRM MODAL - DELETE CATEGORY
+  // -- CONFIRM MODAL - DELETE CATEGORY --
   onDeleteCategory(id: number) {
     this.dialogService.confirm(
       'Delete Category',
@@ -116,6 +146,30 @@ export class ManageComponent {
       } else {
         console.log(result);
       }
-    })
+    });
   }
+
+  // -- CONFIRM MODAL - DELETE STATUS --
+  onDeleteStatus(id: number) {
+    this.dialogService.confirm(
+      'Delete Status',
+      'Are you sure you want to delete this Status?'
+    ).subscribe(result => {
+      if (result) {
+        this.manageService.deleteStatus(id).subscribe({
+          next: (response) => {
+            console.log(response);
+            this.refreshStatuses();
+          },
+          error: (error) => {
+            console.error('Error deleting status: ', error);
+          }
+        })
+      } else {
+        console.log(result);
+      }
+    });
+  }
+
+
 }

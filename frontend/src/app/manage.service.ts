@@ -12,6 +12,7 @@ export class ManageService {
 
   constructor(private http: HttpClient) { }
 
+  // -- CATEGORIES --
   getAllCategories(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/category/showall`)
   }
@@ -26,5 +27,23 @@ export class ManageService {
 
   deleteCategory(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/category/delete/${id}`);
+  }
+
+
+  // -- STATUSES --
+  getAllStatuses(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/status/showall`)
+  }
+
+  addStatus(status: {title: string, description: string, color: string}): Observable<any> {
+    return this.http.post(`${this.apiUrl}/status/add`, status);
+  }
+
+  editStatus(id: number, status: {title: string, description: string, color: string}): Observable<any> {
+    return this.http.put(`${this.apiUrl}/status/edit/${id}`, status);
+  }
+
+  deleteStatus(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/status/delete/${id}`);
   }
 }

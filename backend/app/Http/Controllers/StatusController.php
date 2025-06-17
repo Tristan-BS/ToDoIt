@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Status;
+use Illuminate\Support\Facades\DB;
 
 class StatusController extends Controller
 {
@@ -11,7 +13,7 @@ class StatusController extends Controller
      */
     public function index()
     {
-        //
+        return Status::all();
     }
 
     /**
@@ -19,7 +21,26 @@ class StatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'color' => 'nullable|string|max:20',
+        ]);
+
+        $exists = DB::table('status')->where('title', $validated['title'])->exists();
+        
+        if ($exists) {
+            return response()->json([
+                'message' => 'Status with this title already exists',
+            ], 422);
+        } else {
+            $status = Status::create($validated);
+
+            return response()->json([
+                'message' => 'Status created successfully',
+                'status' => $status
+            ], 201);
+        }
     }
 
     /**

@@ -1,29 +1,29 @@
 <div class="modal-overlay" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
 
-	<!-- CREATE CATEGORY -->
-	<div *ngIf="mode === 'createCategory'">
+    <!-- CREATE CATEGORY -->
+    <div *ngIf="mode === 'create'">
       <h2>Create Category</h2>
-	  <form>
-		<label class="labelTitle">Title</label>
-		<input type="text" #titleInput id="categoryTitle" class="inputTitle" placeholder="Work, School, Privacy etc...">
+      <form>
+        <label class="labelTitle">Title</label>
+        <input type="text" #titleInput id="categoryTitle" class="inputTitle" placeholder="Work, School, Privacy etc...">
 
-	  <br><br>
+        <br><br>
 
-		<label class="labelDescription">Description (Optional)</label>
-		<input type="text" #descInput id="categoryDescription" class="inputDescription" placeholder="For my personal use etc...">
+        <label class="labelDescription">Description (Optional)</label>
+        <input type="text" #descInput id="categoryDescription" class="inputDescription" placeholder="For my personal use etc...">
 
-	  <br><br>
+        <br><br>
 
-		<label class="labelColor">Color (Optional)</label>
-		<input type="text" #colorInput id="categoryColor" class="inputColorPicker" placeholder="Do not use at the moment">
-
-	  </form>
+        <label class="labelColor">Color (Optional)</label>
+        <input type="text" #colorInput id="categoryColor" class="inputColorPicker" placeholder="Do not use at the moment">
+      </form>
     </div>
 
-    <div *ngIf="mode === 'editCategory'">
+    <!-- EDIT CATEGORY -->
+    <div *ngIf="mode === 'edit'">
       <h2>Edit Category</h2>
-	  <form>
+	    <form>
         <label class="labelTitle">Title</label>
         <input type="text" #titleInput placeholder="Category title">
 
@@ -38,8 +38,49 @@
         <input type="text" #colorInput placeholder="Color code">
       </form>
     </div>
-	<br>
-	<button (click)="submitForm()">{{ mode === 'createCategory' ? 'Create' : 'Update' }}</button>
-	<button (click)="closeModal()">Close</button>
+    
+    <!-- CREATE STATUS -->
+    <div *ngIf="mode === 'create'">
+      <h2>Create Category</h2>
+      <form>
+        <label class="labelTitle">Title</label>
+        <input type="text" #titleInput id="categoryTitle" class="inputTitle" placeholder="Work, School, Privacy etc...">
+
+        <br><br>
+
+        <label class="labelDescription">Description (Optional)</label>
+        <input type="text" #descInput id="categoryDescription" class="inputDescription" placeholder="For my personal use etc...">
+
+        <br><br>
+
+        <label class="labelColor">Color (Optional)</label>
+        <input type="text" #colorInput id="categoryColor" class="inputColorPicker" placeholder="Do not use at the moment">
+      </form>
+    </div>
+
+    <!-- EDIT CATEGORY -->
+    <div *ngIf="mode === 'edit'">
+      <h2>Edit Category</h2>
+	    <form>
+        <label class="labelTitle">Title</label>
+        <input type="text" #titleInput placeholder="Category title">
+
+        <br><br>
+
+        <label>Description (Optional)</label>
+        <input type="text" #descInput placeholder="Description">
+
+        <br><br>
+
+        <label>Color (Optional)</label>
+        <input type="text" #colorInput placeholder="Color code">
+      </form>
+    </div>
+
+    <br>
+    <button (click)="submitForm()">{{ mode === 'create' ? 'Create' : 'Update' }}</button>
+    <button (click)="closeModal()">Close</button>
+
+
   </div>
 </div>
